@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Post from "./component/Post";
 import PuffLoader from "react-spinners/PuffLoader";
+import { FiMenu } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const App = () => {
   const [data, setData] = useState([]);
   const [value, setValue] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const fetchData = async (id) => {
     setLoading(true);
@@ -20,7 +23,8 @@ const App = () => {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      },1500);
+        toast.success("Data fetched successfully",{position:'top-center'});
+      }, 1500);
     }
   };
 
@@ -36,26 +40,35 @@ const App = () => {
 
   return (
     <>
-      <div className="w-full h-screen bg-white  grid grid-cols-1 md:grid-cols-4">
-        <div className="col-span-1 bg-[#000A30]   p-5 md:w-64 ">
-          <h1 className="text-white text-2xl  font-semibold mb-4">DashBoard</h1>
-          <button
-            onClick={newListHandler}
-            className={
-              " text-white mt-5 font-semibold bg-[#152561] p-3 rounded-lg " +
-              (loading ? " disabled " : "")
-            }
-          >
-            Create New List
-          </button>
-          <p className="text-white mt-5 font-semibold bg-[#152561] p-3 rounded-lg w-36">
-            Current Post : {value}
-          </p>
+      <div className="min-h-screen bg-white flex flex-col md:flex-row">
+        <div className="bg-[#000A30] p-5 md:w-64 flex flex-col">
+          <div className="flex items-center justify-between md:justify-center md:flex-col mb-4">
+            <h1 className="text-white text-2xl font-semibold">DashBoard</h1>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+              <FiMenu className="text-white text-2xl" />
+            </button>
+          </div>
+          <div className={`md:block ${isMenuOpen ? "block" : "hidden"} mt-4 md:mt-0`}>
+            <button
+              onClick={newListHandler}
+              className={`px-4 py-2 mt-5 font-semibold text-white rounded ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-700"
+              }`}
+              disabled={loading}
+            >
+              Create New List
+            </button>
+            <p className="text-white mt-5 font-semibold bg-[#152561] p-3 rounded-lg hover:bg-[#152561c6]">
+              Current Post: {value}
+            </p>
+          </div>
         </div>
 
-        <div className="col-span-1 md:col-span-3 w-full h-screen pr-32 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+        <div className="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {loading ? (
-            <div className="col-span-full flex items-center justify-center w-full h-screen bg-white">
+            <div className="flex items-center justify-center w-full h-full">
               <PuffLoader loading={true} size={150} />
             </div>
           ) : (
