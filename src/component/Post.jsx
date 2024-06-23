@@ -7,7 +7,7 @@ const Post = ({ email, body }) => {
         <p className="text-gray-700 font-semibold">Email:</p>
         <p className="text-blue-600">{email}</p>
       </div>
-      <div className="md:h-auto" >
+      <div className="md:h-auto" > 
         <p className="text-gray-700 font-semibold">Body:</p>
         <p className="text-gray-600">{body}</p>
       </div>

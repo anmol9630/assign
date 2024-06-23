@@ -23,7 +23,7 @@ const App = () => {
     } finally {
       setTimeout(() => {
         setLoading(false);
-        toast.success("Data fetched successfully",{position:'top-center'});
+        toast.success("Data fetched successfully", { position: "top-center" });
       }, 1500);
     }
   };
@@ -31,7 +31,6 @@ const App = () => {
   const newListHandler = () => {
     const randomValue = Math.floor(Math.random() * 10) + 1;
     setValue(randomValue);
-    console.log(randomValue);
   };
 
   useEffect(() => {
@@ -43,12 +42,19 @@ const App = () => {
       <div className="min-h-screen bg-white flex flex-col md:flex-row">
         <div className="bg-[#000A30] p-5 md:w-64 flex flex-col">
           <div className="flex items-center justify-between md:justify-center md:flex-col mb-4">
-            <h1 className="text-white text-2xl font-semibold">DashBoard</h1>
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+            <h1 className="text-white text-2xl font-semibold">Dashboard</h1>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden"
+            >
               <FiMenu className="text-white text-2xl" />
             </button>
           </div>
-          <div className={`md:block ${isMenuOpen ? "block" : "hidden"} mt-4 md:mt-0`}>
+          <div
+            className={`md:block ${
+              isMenuOpen ? "block" : "hidden"
+            } mt-4 md:mt-0`}
+          >
             <button
               onClick={newListHandler}
               className={`px-4 py-2 mt-5 font-semibold text-white rounded ${
@@ -60,22 +66,22 @@ const App = () => {
             >
               Create New List
             </button>
-            <p className="text-white mt-5 font-semibold bg-[#152561] p-3 rounded-lg hover:bg-[#152561c6]">
+            <p className="text-white mt-5 font-semibold bg-[#152561] p-3 rounded-lg hover:bg-[#152561c6] ">
               Current Post: {value}
             </p>
           </div>
         </div>
 
-        <div className="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {loading ? (
-            <div className="flex items-center justify-center w-full h-full">
+        <div className="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 relative">
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
               <PuffLoader loading={true} size={150} />
             </div>
-          ) : (
+          )}
+          {!loading &&
             data.map((item, index) => (
               <Post email={item.email} body={item.body} key={index} />
-            ))
-          )}
+            ))}
         </div>
       </div>
     </>
@@ -83,3 +89,4 @@ const App = () => {
 };
 
 export default App;
+
